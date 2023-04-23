@@ -1,0 +1,4 @@
+cradle:
+  cabal:
+    - path: "src"
+      component: "sass-transpiler:exe:sass-transpiler"

@@ -1,0 +1,35 @@
+
+-- Augmented Backus-Naus notation (https://en.wikipedia.org/wiki/Augmented_Backus%E2%80%93Naur_form)
+-- Describing SCSS syntax
+
+sheet = *block
+block = compound-selector *WSP "{" *LWSP block-body *LWSP "}" *WSP
+
+-- Selectors (wildly complicated !!!)
+compound-selector = extended-selector *(*WSP combinator *WSP extended-selector)
+extended-selector = 1*simple-selector [pseudo-class] [attribute-selector]
+pseudo-class = ":" ("last-child" | "only-child" | "invalid" | "hover" | "focus")
+attribute-selector = "[" property-name [atribute-comparator DQUOTE string-literal DQUOTE] "]"
+attribute-comparator = "=" | "~=" | "*=" | "$="
+simple-selector = id-selector | class-selector | tagname-selector
+id-selector = "#" string-literal
+class-selector = "." string-literal
+tagname-selector = string-literal
+combinator = WSP | ">" | "+" | "~"
+
+block-body = *(property | block | *LWSP)
+property = property-name *WSP ":" *WSP property-value *WPS ";"
+property-name = string-literal
+property-value = number-literal | string-literal
+number-literal = FLOAT [unit]
+string-literal = 1*(ALPHA | -)
+
+-- https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Values_and_Units#numeric_data_types
+unit = "em" | "ex" | "cap" | "ch" | "ic" | "rem" | "lh" | "rlh" | "vw" | "vh" | "vi" | "vb" | "vmin" | "vmax" |
+       "cqw" | "cqh" | "cqi" | "cqb" | "cqmin" | "cqmax" |
+       "cm" | "mm" | "Q" | "in" | "pc" | "pt" | "px" |
+       "deg" | "grad" | "rad" | "turn" |
+       "s" | "ms" |
+       "Hz" | "kHz" |
+       "fr" |
+       "dpi" | "dpcm" | "dppx"
